@@ -15,3 +15,6 @@ app.use(express.static(path.join(__dirname + "/public/")))
 app.get('/', async(req, res)=>{
   res.render('home')
 })
+app.get('/sobre', async(req, res)=>{
+  res.render('sobre')
+})
