@@ -3,6 +3,7 @@ const app = require("./config/config.js")
 const hbs = require("express-handlebars")
 const { marked } = require("marked")
 const path = require("path")
+const GetIP = require('./funcs/ip.js')
 
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
@@ -20,4 +21,8 @@ app.get('/sobre', async(req, res)=>{
 })
 app.get('/termos-de-uso', async(req, res)=>{
   res.render('termos')
+})
+app.get('/test', async(req, res)=>{
+  const ip = await GetIP()
+  res.json(ip)
 })
