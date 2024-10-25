@@ -18,3 +18,6 @@ app.get('/', async(req, res)=>{
 app.get('/sobre', async(req, res)=>{
   res.render('sobre')
 })
+app.get('/termos-de-uso', async(req, res)=>{
+  res.render('termos')
+})
