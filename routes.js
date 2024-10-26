@@ -96,3 +96,43 @@ app.post('/login', async(req, res)=>{
     res.status(500).json({ error: 'Ocorreu um erro interno.' })
   }
 })
+app.get('/cadastro', async(req, res)=>{
+  const ip = await GetIP()
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.render('cadastro')
+    } else{
+      res.redirect('/blog')
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.post('/cadastro', async(req, res)=>{
+  const ip = await GetIP()
+  const { nome, email, senha } = req.body
+  console.log(req.body)
+  const formatNome = await nome.replace(' ', '')
+  const nomeString = await formatNome.toLowerCase()
+  try{
+    const user = await Users.create({
+      nome: nomeString,
+      email: email,
+      senha: senha,
+      biografia: marked("**Olá mundo!!**"),
+      ip: ip,
+      data: Date()
+    })
+    console.log(user)
+    res.redirect('/login')
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
