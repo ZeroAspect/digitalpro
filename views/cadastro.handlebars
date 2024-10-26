@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>
+    Cadastrar novo usuário
+  </h2>
+  <small>
+    Campos marcados com
+    <span class="text-danger">*</span>
+    são obrigatórios.
+  </small>
+  <form action="/cadastro" method="post">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome <strong class="text-danger">*</strong></label>
+      <div class="p-2">
+        <input type="text" class="form-control form-control-dark text-bg-dark" id="nome" name="nome" required>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email <strong class="text-danger">*</strong></label>
+      <div class="p-2">
+        <input type="email" class="form-control form-control-dark text-bg-dark" id="email" name="email" required>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="senha" class="form-label">Senha <strong class="text-danger">*</strong></label>
+      <div class="p-2">
+        <input type="password" class="form-control form-control-dark text-bg-dark" id="senha" name="senha" required>
+      </div>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+      <button type="submit" class="btn btn-success">
+        <i>
+          Cadastrar
+        </i>
+      </button>
+    </div>
+  </form>
+</div>
