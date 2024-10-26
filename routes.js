@@ -31,9 +31,68 @@ app.get('/test', async(req, res)=>{
 app.get('/blog', async(req, res)=>{
   const ip = await GetIP()
   try{
-    
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    // res.json(user)
+    if(user === null){
+      res.redirect('/login')
+    } else{
+      res.render('blog')
+    }
   } catch(err){
     console.error(err)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.get('/login', async(req, res)=>{
+  const ip = await GetIP()
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.render('login')
+    } else{
+      res.redirect('/blog')
+    }
+  }catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.post('/login', async(req, res)=>{
+  const ip = await GetIP()
+  const { email, senha } = req.body
+  try{
+    const user = await Users.findOne({
+      where: {
+        email: email,
+        senha: senha
+      }
+    })
+    if(user === null){
+      const error = `
+      <p class="text-danger">Email ou senha invalidos.</p>`
+      res.render('login', { error })
+    } else{
+      await Users.update(
+        { ip: ip },
+        {
+          where: {
+            email: email,
+            senha: senha
+          }
+        }
+      )
+      res.redirect('/blog')
+    }
+  } catch(error){
+    console.error(error)
     res.status(500).json({ error: 'Ocorreu um erro interno.' })
   }
 })
