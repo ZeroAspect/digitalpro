@@ -1,0 +1,29 @@
+{{#each post}}
+<div class="container">
+  <div class="card text-bg-dark">
+    <div class="card-header">
+      <small class="d-flex justify-content-between">
+        <a href="/{{nome}}">{{nome}}</a>
+        <span class="badge bg-primary">
+          {{post_like}}
+        </span>
+      </small>
+    </div>
+    <div class="card-body">
+      {{{conteudo}}}
+    </div>
+    <div class="card-footer">
+      <small class="d-flex justify-content-between">
+        <small>
+          {{{data}}}
+        </small>
+        <form action="/blog/post/{{id}}/like" method="post">
+          <button class="btn btn-outline-danger">Curtir
+            <span class="badge bg-primary">{{post_like}}</span>
+          </button>
+        </form>
+      </small>
+    </div>
+  </div>
+</div>
+{{/each}}

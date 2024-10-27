@@ -184,3 +184,24 @@ app.post('/publicar', async(req, res)=>{
     res.status(500).json({ error: 'Ocorreu um erro interno.' })
   }
 })
+app.get('/blog/post/:id', async(req, res)=>{
+  const mysql = await MySQL()
+  const ip = await GetIP()
+  const { id } = req.params
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.redirect('/login')
+    } else{
+      const [ post, rows ] = await mysql.query(`SELECT * FROM Posts WHERE id = ${id}`)
+      res.render('post', { post })
+    }
+  } catch(err){
+    console.error(err)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
