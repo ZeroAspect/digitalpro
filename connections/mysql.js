@@ -1,10 +1,10 @@
-const { createPool } = require("mysql2");
+const mysql = require("mysql2");
 
 async function MySQL(){
-  const connection = await createPool({
+  const connection = mysql.createPool({
     uri: "mysql://root:ZMGINwHFNzVEVaocsGdgJmQwiwmzrpfw@junction.proxy.rlwy.net:32722/railway"
   })
-  const pool = connection.promisse()
+  const pool = connection.promise()
   return pool
 }
 

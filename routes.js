@@ -6,8 +6,10 @@ const path = require("path")
 const GetIP = require('./funcs/ip.js')
 const Users = require('./models/User.js')
 const db = require('./sequelize/sequelize.js')
-const mysql = require("mysql2")
+// const mysql = require("mysql2")
 const MySQL = require('./connections/mysql.js')
+const Posts = require('./models/Posts.js')
+
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname + "/views"))
@@ -30,6 +32,7 @@ app.get('/test', async(req, res)=>{
   res.json(ip)
 })
 app.get('/blog', async(req, res)=>{
+  const mysql = await MySQL()
   const ip = await GetIP()
   try{
     const user = await Users.findOne({
@@ -41,7 +44,8 @@ app.get('/blog', async(req, res)=>{
     if(user === null){
       res.redirect('/login')
     } else{
-      res.render('blog')
+      const [ posts, rows ] = await mysql.query(`SELECT * FROM Posts ORDER BY post_like DESC`)
+      res.render('blog', { posts })
     }
   } catch(err){
     console.error(err)
@@ -132,6 +136,49 @@ app.post('/cadastro', async(req, res)=>{
     })
     console.log(user)
     res.redirect('/login')
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.get('/publicar', async(req, res)=>{
+  const ip = await GetIP()
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.redirect('/login')
+    } else{
+      res.render('publicar')
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.post('/publicar', async(req, res)=>{
+  const ip = await GetIP()
+  const { titulo, conteudo } = req.body
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.redirect('/login')
+    } else{
+      await Posts.create({
+        nome: user['nome'],
+        titulo: titulo,
+        conteudo: marked(conteudo),
+        data: Date()
+      })
+      res.redirect('/blog')
+    }
   } catch(error){
     console.error(error)
     res.status(500).json({ error: 'Ocorreu um erro interno.' })

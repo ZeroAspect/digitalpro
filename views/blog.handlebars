@@ -1,0 +1,18 @@
+<div class="container d-grid gap-2 mb-3">
+  <button type="button" class="btn btn-outline-primary" onclick="location.href = '/publicar'">Publicar novo Conteúdo</button>
+</div>
+{{#each posts}}
+<div class="container">
+  <div class="card text-bg-dark">
+    <div class="card-header">
+      <small class="d-flex justify-content-between">
+        <a href="/{{nome}}">{{nome}}</a>
+        <span class="badge bg-primary">{{post_like}}</span>
+      </small>
+    </div>
+    <div class="card-body">
+      {{{conteudo}}}
+    </div>
+  </div>
+</div>
+{{/each}}
