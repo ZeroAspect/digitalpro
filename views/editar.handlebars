@@ -14,12 +14,27 @@
     </div>
     <div class="mb-3">
       <label for="senha" class="form-label">Senha <strong class="text-danger">*</strong></label>
-      <input type="password" class="form-control form-control-dark text-bg-dark" id="senha" name="senha">
+      <input type="password" class="form-control form-control-dark text-bg-dark" id="senha" name="senha" value="{{senha}}">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="mostrarSenha" name="mostrarSenha">
+        <label class="form-check-label" for="mostrarSenha">Mostrar senha</label>
+      </div>
     </div>
     <div class="mb-3">
       <label for="biografia" class="form-label">Biografia</label>
       <textarea class="form-control form-control-dark text-bg-dark" id="biografia" name="biografia" style="height: 144px;" rows="3">{{biografia}}</textarea>
     </div>
+    <div class="mb-3 d-grid gap-2">
+      <button type="submit" class="btn btn-success">Confirmar alterações</button>
+    </div>
   </form>
 </div>
 {{/each}}
+
+<script>
+  const mostrarSenha = document.getElementById('mostrarSenha');
+  mostrarSenha.addEventListener('change', () => {
+    const senhaInput = document.getElementById('senha');
+    senhaInput.type = mostrarSenha.checked? 'text' : 'password';
+  })
+</script>
