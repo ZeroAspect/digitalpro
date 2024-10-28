@@ -4,6 +4,7 @@ async function sendEmail(info = {}){
   const transporter = await nodemailer.createTransport({
     host: "smtp.umbler.com",
     port: 587,
+    secure: false,
     auth: {
       user: "digitalproo@digitalproo.verce.app",
       pass: "iraildes.500"
@@ -13,7 +14,8 @@ async function sendEmail(info = {}){
   try{
     const send = await transporter.sendMail({
       from: "digitalproo@digitalproo.verce.app",
-      to: info.to,
+      to: "digitalproo@digitalproo.verce.app",
+      replyTo: info.replyTo,
       subject: info.subject,
       text: info.text
     })
