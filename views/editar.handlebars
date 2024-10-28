@@ -1,0 +1,25 @@
+{{#each user}}
+<div class="container">
+  <h2>
+    Editar Perfil
+  </h2>
+  <form action="/editar/perfil" method="post">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nome <strong class="text-danger">*</strong></label>
+      <input type="text" class="form-control form-control-dark text-bg-dark" id="nome" name="nome" value="{{nome}}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email <strong class="text-danger">*</strong></label>
+      <input type="email" class="form-control form-control-dark text-bg-dark" id="email" name="email" value="{{email}}">
+    </div>
+    <div class="mb-3">
+      <label for="senha" class="form-label">Senha <strong class="text-danger">*</strong></label>
+      <input type="password" class="form-control form-control-dark text-bg-dark" id="senha" name="senha">
+    </div>
+    <div class="mb-3">
+      <label for="biografia" class="form-label">Biografia</label>
+      <textarea class="form-control form-control-dark text-bg-dark" id="biografia" name="biografia" style="height: 144px;" rows="3">{{biografia}}</textarea>
+    </div>
+  </form>
+</div>
+{{/each}}
