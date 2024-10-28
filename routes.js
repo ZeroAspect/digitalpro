@@ -269,7 +269,8 @@ app.get('/editar/perfil', async(req, res)=>{
     if(user === null){
       res.redirect('/login')
     } else{
-      res.render('editar', { user })
+      const [ findUser, rows ] = await mysql.query(`SELECT * FROM Users WHERE ip = '${ip}'`)
+      res.render('editar', { user: findUser })
     }
   } catch(error){
     console.error(error)
