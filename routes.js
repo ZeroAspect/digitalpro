@@ -10,6 +10,8 @@ const db = require('./sequelize/sequelize.js')
 const MySQL = require('./connections/mysql.js')
 const Posts = require('./models/Posts.js')
 const Comentario = require('./models/Comentarios.js')
+const nodemailer = require('nodemailer')
+const sendEmail = require('./email/nodemailerConfig.js')
 
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
@@ -271,6 +273,40 @@ app.get('/editar/perfil', async(req, res)=>{
     } else{
       const [ findUser, rows ] = await mysql.query(`SELECT * FROM Users WHERE ip = '${ip}'`)
       res.render('editar', { user: findUser })
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.post('/editar/perfil', async(req, res)=>{
+  const mysql = await MySQL()
+  const ip = await GetIP()
+  const { email, senha, biografia } = req.body
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.redirect('/login')
+    } else{
+      await Users.update(
+        { email, senha, biografia: marked(biografia) },
+        {
+          where: {
+            ip: ip
+          }
+        }
+      )
+      await sendEmail({
+        to: user['email'],
+        subject: 'DigitalPro: Atualizações no perfil.',
+        text: 'Seu perfil foi editado com sucesso.'
+      })
+      res.redirect('/editar/perfil')
+      console.log({ message: 'Perfil editado com sucesso.' })
     }
   } catch(error){
     console.error(error)
