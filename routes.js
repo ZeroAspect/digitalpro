@@ -9,6 +9,7 @@ const db = require('./sequelize/sequelize.js')
 // const mysql = require("mysql2")
 const MySQL = require('./connections/mysql.js')
 const Posts = require('./models/Posts.js')
+const Comentario = require('./models/Comentarios.js')
 
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
@@ -198,7 +199,8 @@ app.get('/blog/post/:id', async(req, res)=>{
       res.redirect('/login')
     } else{
       const [ post, rows ] = await mysql.query(`SELECT * FROM Posts WHERE id = ${id}`)
-      res.render('post', { post })
+      const [ coment, rowsComent ] = await mysql.query(`SELECT * FROM Comentarios WHERE post_id = ${id}`)
+      res.render('post', { post, coment })
     }
   } catch(err){
     console.error(err)
@@ -225,5 +227,33 @@ app.post('/blog/post/:id/like', async(req, res)=>{
   } catch(error){
     console.error(error)
     res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.post('/blog/post/:id/comment', async(req, res)=>{
+  const mysql = await MySQL()
+  const ip = await GetIP()
+  const { id } = req.params
+  const { comentario } = req.body
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.status(403).json({ error: 'Você não pode comentar este post.' })
+    } else{
+      await Comentario.create({
+        nome: user['nome'],
+        comentario: marked(comentario),
+        post_id: id,
+        data: Date()
+      })
+      res.status(200).redirect(`/blog/post/${id}`)
+      console.log({ message: 'Comentário postado com sucesso.' })
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorre um erro interno.' })
   }
 })
