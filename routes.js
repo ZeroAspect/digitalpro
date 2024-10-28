@@ -257,3 +257,22 @@ app.post('/blog/post/:id/comment', async(req, res)=>{
     res.status(500).json({ error: 'Ocorre um erro interno.' })
   }
 })
+app.get('/editar/perfil', async(req, res)=>{
+  const ip = await GetIP()
+  const mysql = await MySQL()
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.redirect('/login')
+    } else{
+      res.render('editar', { user })
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
