@@ -205,3 +205,25 @@ app.get('/blog/post/:id', async(req, res)=>{
     res.status(500).json({ error: 'Ocorreu um erro interno.' })
   }
 })
+app.post('/blog/post/:id/like', async(req, res)=>{
+  const mysql = await MySQL()
+  const ip = await GetIP()
+  const { id } = req.params
+  try{
+    const user = await Users.findOne({
+      where: {
+        ip: ip
+      }
+    })
+    if(user === null){
+      res.status(403).json({ error: 'Você não pode curtir este post.' })
+    } else{
+      await mysql.query(`UPDATE Posts SET post_like = post_like + 1 WHERE id = ${id}`)
+      res.status(200).redirect(`/blog/post/${id}`)
+      console.log({ message: 'Post curtiado com sucesso.' })
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
