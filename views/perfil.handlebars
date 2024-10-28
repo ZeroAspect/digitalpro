@@ -1,0 +1,28 @@
+{{#each user}}
+<div class="container">
+  <h3>
+    <a href="/{{nome}}" class="text-white">{{nome}}</a>
+  </h3>
+  <hr>
+  <div class="card text-bg-dark">
+    <div class="card-header">
+      <h5 class="card-title">Informações Adicionais</h5>
+    </div>
+    <div class="card-body">
+      <small class="mb-3">
+        <small>
+          {{createdAt}}
+        </small>
+      </small>
+      <div class="card text-bg-dark">
+        <div class="card-header">
+          <h5 class="card-title">Biografia</h5>
+        </div>
+        <div class="card-body">
+          {{{biografia}}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}

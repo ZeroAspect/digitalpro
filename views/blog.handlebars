@@ -1,5 +1,8 @@
 <div class="container d-grid gap-2 mb-3">
-  <button type="button" class="btn btn-outline-primary" onclick="location.href = '/publicar'">Publicar novo Conteúdo</button>
+  <button type="button" class="btn btn-link" onclick="location.href = '/{{userName}}'">
+    {{userName}}
+  </button>
+  <button type="button" class="btn btn-primary" onclick="location.href = '/publicar'">Publicar novo Conteúdo</button>
 </div>
 {{#each posts}}
 <div class="container">

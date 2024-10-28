@@ -48,7 +48,7 @@ app.get('/blog', async(req, res)=>{
       res.redirect('/login')
     } else{
       const [ posts, rows ] = await mysql.query(`SELECT * FROM Posts ORDER BY post_like DESC`)
-      res.render('blog', { posts })
+      res.render('blog', { userName: user['nome'], posts })
     }
   } catch(err){
     console.error(err)
@@ -307,6 +307,27 @@ app.post('/editar/perfil', async(req, res)=>{
       })
       res.redirect('/editar/perfil')
       console.log({ message: 'Perfil editado com sucesso.' })
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).json({ error: 'Ocorreu um erro interno.' })
+  }
+})
+app.get('/:nome', async(req, res)=>{
+  const mysql = await MySQL()
+  const { nome } = req.params
+  try{
+    const user = await Users.findOne({
+      where: {
+        nome: nome
+      }
+    })
+    if(user === null){
+      res.status(404).json({ error: 'Página não encontrada.' })
+    } else{
+      const [ findUser, rows ] = await mysql.query(`SELECT * FROM Users WHERE nome = '${nome}'`)
+      // const [ findPosts, rowsPosts ] = await mysql.query(`SELECT * FROM Posts WHERE nome = '${nome}' ORDER BY data DESC`)
+      res.render('perfil', { user: findUser})
     }
   } catch(error){
     console.error(error)
