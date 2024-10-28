@@ -1,5 +1,5 @@
 {{#each post}}
-<div class="container">
+<div class="p-3">
   <div class="card text-bg-dark">
     <div class="card-header">
       <small class="d-flex justify-content-between">
@@ -47,4 +47,34 @@
     </div>
   </div>
 </div>
+{{/each}}
+<br>
+<div class="container text-center">
+  <h3>Comentários</h3>
+</div>
+{{#each coment}}
+<div class="p-3 mb-3">
+  <div class="card text-bg-dark">
+    <div class="card-header">
+      <small class="d-flex justify-content-between">
+        <a href="/{{nome}}">{{nome}}</a>
+        <span class="text-light">
+          -
+        </span>
+        <span class="text-primary">
+          Comentario
+        </span>
+      </small>
+    </div>
+    <div class="card-body">
+      <p>{{{comentario}}}</p>
+    </div>
+    <div class="card-footer">
+      <small class="d-flex justify-content-between">
+        <small>{{data}}</small>
+      </small>
+    </div>
+  </div>
+</div>
+
 {{/each}}
