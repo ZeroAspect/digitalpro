@@ -2,18 +2,17 @@ const nodemailer = require("nodemailer")
 
 async function sendEmail(info = {}){
   const transporter = await nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    host: "smtp.umbler.com",
+    port: 587,
     auth: {
-      user: "joseiraildesciprianoribeiro@gmail.com",
-      pass: "ZORRO_FF"
+      user: "digitalproo@digitalproo.verce.app",
+      pass: "iraildes.500"
     }
   })
 
   try{
     const send = await transporter.sendMail({
-      from: "joseiraildesciprianoribeiro@gmail.com",
+      from: "digitalproo@digitalproo.verce.app",
       to: info.to,
       subject: info.subject,
       text: info.text
