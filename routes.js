@@ -301,7 +301,7 @@ app.post('/editar/perfil', async(req, res)=>{
         }
       )
       await sendEmail({
-        to: user['email'],
+        replyTo: user['email'],
         subject: 'DigitalPro: Atualizações no perfil.',
         text: 'Seu perfil foi editado com sucesso.'
       })
