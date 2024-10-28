@@ -25,5 +25,23 @@
       </small>
     </div>
   </div>
+  <br>
+  <div class="card text-bg-dark">
+    <div class="card-header text-bg-light">
+      <h5>Comentar</h5>
+    </div>
+    <div class="card-body">
+      <form action="/blog/post/{{id}}/comment" method="post">
+        <div class="mb-3">
+          <label for="comentario">Comentário</label>
+          <textarea class="form-control form-control-dark text-bg-dark" id="comentario" name="comentario" style="height: 144px;" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-outline-success">Comentar</button>
+          <button type="reset" class="btn btn-outline-danger">Limpar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {{/each}}
