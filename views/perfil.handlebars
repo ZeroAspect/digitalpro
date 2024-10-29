@@ -10,6 +10,7 @@
     </div>
     <div class="card-body">
       <small class="mb-3">
+        <span class="text-decoration-underline">Ativo desde</span>:
         <small>
           {{createdAt}}
         </small>
@@ -22,6 +23,14 @@
           {{{biografia}}}
         </div>
       </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" class="btn btn-danger" onclick="location.href = '/delete/account/id/{{id}}'">
+        Deletar Conta
+      </button>
+      <button type="button" class="btn btn-primary" onclick="location.href = '/editar/perfil'">
+        Editar Conta
+      </button>
     </div>
   </div>
 </div>
