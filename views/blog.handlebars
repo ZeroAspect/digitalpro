@@ -9,15 +9,15 @@
   <div class="card text-bg-secondary">
     <div class="card-header">
       <small class="d-flex justify-content-between">
-        <a href="/blog/post/{{id}}" class="text-white">{{titulo}}</a>
+        <a href="/{{nome}}" class="text-white">{{nome}}</a>
         <span class="badge bg-primary">{{post_like}}</span>
       </small>
     </div>
     <div class="card-body">
+      <a href="/blog/post/{{id}}" class="text-white">{{titulo}}</a>
       <small>
-        {{data}}
         <br>
-        <a href="/blog/post/{{id}}">Ir para o post</a>
+        <a href="/blog/post/{{id}}" class="text-muted">Ler mais...</a>
       </small>
     </div>
   </div>
