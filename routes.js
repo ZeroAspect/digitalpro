@@ -12,6 +12,8 @@ const Posts = require('./models/Posts.js')
 const Comentario = require('./models/Comentarios.js')
 const nodemailer = require('nodemailer')
 const sendEmail = require('./email/nodemailerConfig.js')
+const multer = require("multer")
+const upload = require('./upload/upload.js')
 
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
@@ -279,10 +281,12 @@ app.get('/editar/perfil', async(req, res)=>{
     res.status(500).json({ error: 'Ocorreu um erro interno.' })
   }
 })
-app.post('/editar/perfil', async(req, res)=>{
+app.post('/editar/perfil', upload.single('imagem'), async(req, res)=>{
   const mysql = await MySQL()
   const ip = await GetIP()
   const { email, senha, biografia } = req.body
+  const imagem = req.file
+  console.log(req.file)
   try{
     const user = await Users.findOne({
       where: {
@@ -292,14 +296,23 @@ app.post('/editar/perfil', async(req, res)=>{
     if(user === null){
       res.redirect('/login')
     } else{
-      await Users.update(
-        { email, senha, biografia: marked(biografia) },
-        {
-          where: {
-            ip: ip
-          }
-        }
-      )
+      // const update = await Users.update(
+      //   { email, senha, biografia: marked(biografia), foto: imagem.filename },
+      //   {
+      //     where: {
+      //       ip: ip
+      //     }
+      //   }
+      // )
+      const [ update, rows ] = await mysql.query(`
+        UPDATE Users
+        SET email = '${email}',
+        senha = '${senha}',
+        biografia = '${marked(biografia)}',
+        foto = '${imagem.filename}'
+        WHERE ip = '${ip}'
+      `)
+      console.log(update)
       await sendEmail({
         replyTo: user['email'],
         subject: 'DigitalPro: Atualizações no perfil.',

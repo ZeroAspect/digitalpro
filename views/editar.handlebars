@@ -3,7 +3,11 @@
   <h2>
     Editar Perfil
   </h2>
-  <form action="/editar/perfil" method="post">
+  <form action="/editar/perfil" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="imagem" class="form-label">Foto de perfil</label>
+      <input type="file" class="form-control form-control-dark text-bg-dark" id="imagem" name="imagem" value="{{foto}}">
+    </div>
     <div class="mb-3">
       <label for="nombre" class="form-label">Nome <strong class="text-danger">*</strong></label>
       <input type="text" class="form-control form-control-dark text-bg-dark" id="nome" name="nome" value="{{nome}}" readonly>
